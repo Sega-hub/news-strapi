@@ -8,9 +8,11 @@
     "deploy": "strapi deploy",
     "develop": "strapi develop",
     "start": "strapi start",
-    "strapi": "strapi"
+    "strapi": "strapi",
+    "build-plugin": "cd src/plugins/newspaper-plugin && npm run build && cd ../../.. && npm run develop"
   },
   "dependencies": {
+    "@radix-ui/react-tooltip": "^1.1.8",
     "@strapi/plugin-cloud": "5.9.0",
     "@strapi/plugin-users-permissions": "5.9.0",
     "@strapi/strapi": "5.9.0",
@@ -18,9 +20,9 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0"
+    "styled-components": "^6.0.0",
+    "yarn": "^1.22.22"
   },
-  "devDependencies": {},
   "engines": {
     "node": ">=18.0.0 <=22.x.x",
     "npm": ">=6.0.0"
