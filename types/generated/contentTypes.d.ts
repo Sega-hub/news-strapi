@@ -372,6 +372,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiNewspaperNewspaper extends Struct.CollectionTypeSchema {
   collectionName: 'newspapers';
   info: {
+    description: '';
     displayName: 'Newspaper';
     pluralName: 'newspapers';
     singularName: 'newspaper';
@@ -383,18 +384,13 @@ export interface ApiNewspaperNewspaper extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    discription: Schema.Attribute.Text;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::newspaper.newspaper'
     > &
       Schema.Attribute.Private;
-    newsDate: Schema.Attribute.Date;
-    newsPicture: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
+    newsArticle: Schema.Attribute.Text & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;

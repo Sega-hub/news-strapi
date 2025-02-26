@@ -4,7 +4,8 @@
   "info": {
     "singularName": "newspaper",
     "pluralName": "newspapers",
-    "displayName": "Newspaper"
+    "displayName": "Newspaper",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,21 +15,9 @@
     "title": {
       "type": "string"
     },
-    "discription": {
-      "type": "text"
-    },
-    "newsDate": {
-      "type": "date"
-    },
-    "newsPicture": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
-      "type": "media",
-      "multiple": true
+    "newsArticle": {
+      "type": "text",
+      "required": true
     }
   }
 }

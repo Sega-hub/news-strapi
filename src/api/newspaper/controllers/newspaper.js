@@ -1,9 +1,23 @@
-'use strict';
+"use strict";
 
-/**
- * newspaper controller
- */
+const { createCoreController } = require("@strapi/strapi").factories;
 
-const { createCoreController } = require('@strapi/strapi').factories;
+module.exports = createCoreController("api::newspaper.newspaper", ({ strapi }) => ({
+  async create(ctx) {
+    try {
+      const { title, discription, newsDate, newsPicture, newsArticle } = ctx.request.body;
 
-module.exports = createCoreController('api::newspaper.newspaper');
+      if (!title || !newsArticle) {
+        return ctx.badRequest("Title and content are required");
+      }
+
+      const newspaper = await strapi.entityService.create("api::newspaper.newspaper", {
+        data: { title, discription, newsDate, newsPicture, newsArticle },
+      });
+
+      return ctx.created(newspaper);
+    } catch (error) {
+      ctx.throw(500, "Something went wrong");
+    }
+  },
+}));
