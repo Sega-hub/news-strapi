@@ -63,8 +63,11 @@ const Process = () => {
                 </Typography>
             </Box>
 
-            <Box gap={4}>
-                <Table colCount={3} rowCount={process.length}>
+            <Box gap={4}
+            style={{
+                width: "1000px"
+            }}>
+                <Table colCount={3} rowCount={process.length} style={{width: "100%"}}>
                     <Thead>
                         <Tr>
                             <Th><Typography variant="sigma">Name</Typography></Th>

@@ -41,8 +41,11 @@ const Models = () => {
                 </Typography>
             </Box>
 
-            <Box gap={4}>
-                <Table colCount={3} rowCount={models.length}>
+            <Box gap={4}
+            style={{
+                width: "1000px"
+            }}>
+                <Table colCount={3} rowCount={models.length}  style={{width: "100%"}}>
                         <Thead>
                             <Tr>
                             <Th><Typography variant="sigma">Name</Typography></Th>
