@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Field } from '@strapi/design-system';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea } from '@strapi/design-system';
 
 const Agents = () => {
     const [agents, setAgents] = useState([]);
@@ -66,14 +66,11 @@ const Agents = () => {
                                                     <Flex style={{ padding: "20px", display: "flex", flexWrap: "wrap" }}>
                                                         {Object.keys(agent).map((key) => (
                                                             <Box key={key} style={{ padding: "4px", width: "100%" }}>
-                                                                <Field.Root>
-                                                                    <Field.Label>{key.replace(/_/g, " ")}</Field.Label>
-                                                                    <Field.Input
-                                                                        type="text"
-                                                                        value={editedAgents[agent.uuid]?.[key] ?? agent[key] ?? ""}
-                                                                        onChange={(e) => handleChange(agent.uuid, key, e.target.value)}
-                                                                    />
-                                                                </Field.Root>
+                                                                <Typography variant="pi" fontWeight="bold">{key.replace(/_/g, " ")}</Typography>
+                                                                <Textarea
+                                                                    value={editedAgents[agent.uuid]?.[key] ?? agent[key] ?? ""}
+                                                                    onChange={(e) => handleChange(agent.uuid, key, e.target.value)}
+                                                                />
                                                                 <button
                                                                     onClick={() => handleSave(agent.uuid, key)}
                                                                     disabled={editedAgents[agent.uuid]?.[key] === undefined}
