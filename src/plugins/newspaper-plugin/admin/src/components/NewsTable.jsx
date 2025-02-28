@@ -45,9 +45,7 @@ const NewsTable = () => {
         <Button>новый Перевод</Button>
       </Box>
       <Box style={{ width: "100%"}} >
-        <Table colCount={COL_COUNT} rowCount={ROW_COUNT} footer={<TFooter icon={<Plus />}
-          style={{ width: "100%"}}
-        >Add another field to this collection type</TFooter>}>
+        <Table colCount={COL_COUNT} rowCount={ROW_COUNT} >
           <Thead>
             <Tr>
               <Th><Typography variant="sigma">ID</Typography></Th>

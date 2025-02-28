@@ -7,7 +7,6 @@ import {
     Link
 } from '@strapi/design-system';
 import { NewsTable } from './NewsTable';
-import { CardItem } from './CardItem';
 import { Agents } from './Agents';
 import { Process } from './Process';
 import { Models } from './Models';

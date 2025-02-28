@@ -29,6 +29,7 @@ const HomePage = () => {
        <Box 
         style = {{
           width: '75%',
+          maxWidth: "1000px",
           marginTop: "25px",
         }}
        >
