@@ -28,8 +28,8 @@ const Agents = () => {
         }));
     };
 
-    const handleSave = (uuid, field) => {
-        console.log(`${field}:`, editedAgents[uuid]?.[field] || "");
+    const handleSaveAll = (uuid) => {
+        console.log("Сохранение изменений для агента:", uuid, editedAgents[uuid]);
     };
 
     return (
@@ -37,7 +37,7 @@ const Agents = () => {
             <Box gap={4}>
                 <Typography style={{ fontSize: "40px", fontWeight: "bold" }}>Агенты</Typography>
             </Box>
-            <Box gap={4} style={{ width: "1000px" }}>
+            <Box gap={4} style={{ width: "100%" }}>
                 <Table colCount={3} rowCount={agents.length} style={{ width: "100%" }}>
                     <Thead>
                         <Tr>
@@ -71,25 +71,18 @@ const Agents = () => {
                                                                     value={editedAgents[agent.uuid]?.[key] ?? agent[key] ?? ""}
                                                                     onChange={(e) => handleChange(agent.uuid, key, e.target.value)}
                                                                 />
-                                                                <button
-                                                                    onClick={() => handleSave(agent.uuid, key)}
-                                                                    disabled={editedAgents[agent.uuid]?.[key] === undefined}
-                                                                    style={{
-                                                                        marginTop: "8px",
-                                                                        padding: "8px 12px",
-                                                                        backgroundColor: editedAgents[agent.uuid]?.[key] !== undefined ? "#007bff" : "#ccc",
-                                                                        color: "white",
-                                                                        border: "none",
-                                                                        cursor: editedAgents[agent.uuid]?.[key] !== undefined ? "pointer" : "not-allowed",
-                                                                        borderRadius: "4px",
-                                                                    }}
-                                                                >
-                                                                    Сохранить
-                                                                </button>
                                                             </Box>
                                                         ))}
                                                     </Flex>
                                                 </Modal.Body>
+                                                <Modal.Footer>
+                                                    <Button
+                                                        onClick={() => handleSaveAll(agent.uuid)}
+                                                        disabled={!editedAgents[agent.uuid]}
+                                                    >
+                                                        Сохранить изменения
+                                                    </Button>
+                                                </Modal.Footer>
                                             </Modal.Content>
                                         </Modal.Root>
                                     </Td>

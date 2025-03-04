@@ -44,8 +44,8 @@ const Process = () => {
         }));
     };
 
-    const handleSave = (uuid, field) => {
-        console.log(`${field}:`, editedProcess[uuid]?.[field] || "");
+    const handleSaveAll = () => {
+        console.log("Сохраненные данные:", editedProcess);
     };
 
     return (
@@ -53,7 +53,7 @@ const Process = () => {
             <Box gap={4}>
                 <Typography style={{ fontSize: "40px", fontWeight: "bold" }}>Процессы</Typography>
             </Box>
-            <Box gap={4} style={{ width: "1000px" }}>
+            <Box gap={4} style={{ width: "100%"}}>
                 <Table colCount={3} rowCount={process.length} style={{ width: "100%" }}>
                     <Thead>
                         <Tr>
@@ -88,21 +88,6 @@ const Process = () => {
                                                                         value={editedProcess[proc.uuid]?.[key] ?? processDetails.process[key] ?? ""}
                                                                         onChange={(e) => handleChange(proc.uuid, key, e.target.value)}
                                                                     />
-                                                                    <button
-                                                                        onClick={() => handleSave(proc.uuid, key)}
-                                                                        disabled={editedProcess[proc.uuid]?.[key] === undefined}
-                                                                        style={{
-                                                                            marginTop: "8px",
-                                                                            padding: "8px 12px",
-                                                                            backgroundColor: editedProcess[proc.uuid]?.[key] !== undefined ? "#007bff" : "#ccc",
-                                                                            color: "white",
-                                                                            border: "none",
-                                                                            cursor: editedProcess[proc.uuid]?.[key] !== undefined ? "pointer" : "not-allowed",
-                                                                            borderRadius: "4px",
-                                                                        }}
-                                                                    >
-                                                                        Сохранить
-                                                                    </button>
                                                                 </Box>
                                                             ))}
                                                             <Typography variant="sigma" style={{ marginTop: "20px" }}>Steps:</Typography>
@@ -121,6 +106,7 @@ const Process = () => {
                                                             ) : (
                                                                 <Typography>Нет шагов в этом процессе.</Typography>
                                                             )}
+                                                            <Button style={{ marginTop: "20px" }} onClick={handleSaveAll}>Сохранить изменения</Button>
                                                         </Box>
                                                     )}
                                                 </Modal.Body>

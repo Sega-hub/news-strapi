@@ -30,8 +30,8 @@ const Models = () => {
         }));
     };
 
-    const handleSave = (uuid, field) => {
-        console.log(`${field}:`, editedModels[uuid]?.[field] || "");
+    const handleSaveAll = (uuid) => {
+        console.log("Сохранение изменений для модели:", uuid, editedModels[uuid]);
     };
 
     return (
@@ -39,7 +39,7 @@ const Models = () => {
             <Box gap={4}>
                 <Typography style={{ fontSize: "40px", fontWeight: "bold" }}>Модели</Typography>
             </Box>
-            <Box gap={4} style={{ width: "1000px" }}>
+            <Box gap={4} style={{ width: "100%" }}>
                 <Table colCount={3} rowCount={models.length} style={{ width: "100%" }}>
                     <Thead>
                         <Tr>
@@ -72,30 +72,24 @@ const Models = () => {
                                                                 <Box key={key} style={{ padding: "4px", width: "100%" }}>
                                                                     <Typography variant="pi" fontWeight="bold" style={{ backgroundColor: "rgb(246, 246, 249)", padding: "4px" }}>{key.replace(/_/g, " ")}</Typography>
                                                                     <Textarea
-                                                                        style={{width: "500px"}}
+                                                                        style={{ width: "500px" }}
                                                                         value={editedModels[model.uuid]?.[key] ?? model[key] ?? ""}
                                                                         onChange={(e) => handleChange(model.uuid, key, e.target.value)}
                                                                     />
-                                                                    <button
-                                                                        onClick={() => handleSave(model.uuid, key)}
-                                                                        disabled={editedModels[model.uuid]?.[key] === undefined}
-                                                                        style={{
-                                                                            marginTop: "8px",
-                                                                            padding: "8px 12px",
-                                                                            backgroundColor: editedModels[model.uuid]?.[key] !== undefined ? "#007bff" : "#ccc",
-                                                                            color: "white",
-                                                                            border: "none",
-                                                                            cursor: editedModels[model.uuid]?.[key] !== undefined ? "pointer" : "not-allowed",
-                                                                            borderRadius: "4px",
-                                                                        }}
-                                                                    >
-                                                                        Сохранить
-                                                                    </button>
                                                                 </Box>
                                                             ))}
                                                         </Box>
                                                     </Flex>
                                                 </Modal.Body>
+                                                <Modal.Footer>
+                                                    <Button
+                                                        onClick={() => handleSaveAll(model.uuid)}
+                                                        disabled={!editedModels[model.uuid]}
+                                                        style={{ marginTop: "16px" }}
+                                                    >
+                                                        Сохранить изменения
+                                                    </Button>
+                                                </Modal.Footer>
                                             </Modal.Content>
                                         </Modal.Root>
                                     </Td>
