@@ -9,13 +9,15 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "strapi": "strapi",
-    "build-plugin": "cd src/plugins/newspaper-plugin && npm run build && cd ../../.. && npm run develop"
+    "build-plugin": "cd src/plugins/newspaper-plugin && npm run build && cd ../../.. && npm run develop",
+    "api": "cd src/plugins/newspaper-plugin/admin/src/components && node LlmApi.js && cd ../../.."
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.1.8",
     "@strapi/plugin-cloud": "5.9.0",
     "@strapi/plugin-users-permissions": "5.9.0",
     "@strapi/strapi": "5.9.0",
+    "axios": "^1.8.1",
     "better-sqlite3": "11.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
