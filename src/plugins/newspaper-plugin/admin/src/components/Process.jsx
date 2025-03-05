@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea } from '@strapi/design-system';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea, TextInput, Checkbox } from '@strapi/design-system';
 import { FileError } from '@strapi/icons';
 
 const Process = () => {
@@ -80,25 +80,66 @@ const Process = () => {
                                                 </Modal.Header>
                                                 <Modal.Body>
                                                     {loading && <Loader>Loading process details...</Loader>}
+
                                                     {processDetails && (
-                                                        <Box gap={4} style={{ marginTop: "20px", display: "flex", flexDirection: "column" }}>
-                                                            {Object.keys(processDetails.process).map((key) => (
-                                                                <Box key={key} style={{ padding: "4px" }}>
-                                                                    <Typography variant="pi" fontWeight="bold" style={{ backgroundColor: "rgb(246, 246, 249)", padding: "4px" }}>{key.replace(/_/g, " ")}</Typography>
-                                                                    <Textarea
-                                                                        value={editedProcess[proc.uuid]?.[key] ?? processDetails.process[key] ?? ""}
-                                                                        onChange={(e) => handleChange(proc.uuid, key, e.target.value)}
-                                                                    />
-                                                                </Box>
-                                                            ))}
+                                                        <Box gap={4} style={{ marginTop: "20px" }}>
+                                                            {/* Форма с данными процесса */}
+                                                            <Flex wrap="wrap" gap={4} style={{ display: "flex" }}>
+                                                                {Object.keys(processDetails.process).map((key) => {
+                                                                    const value = editedProcess[proc.uuid]?.[key] ?? processDetails.process[key] ?? "";
+                                                                    const type = typeof value === "boolean" 
+                                                                        ? "boolean" 
+                                                                        : typeof value === "number" 
+                                                                        ? "number" 
+                                                                        : value.length > 50 
+                                                                        ? "textarea" 
+                                                                        : "text";
+
+                                                                    return (
+                                                                        <Box key={key} style={{ width: "45%", padding: "8px" }}>
+                                                                            <Typography 
+                                                                                variant="pi" 
+                                                                                fontWeight="bold" 
+                                                                                style={{ backgroundColor: "#f6f6f9", padding: "4px", display: "block" }}
+                                                                            >
+                                                                                {key.replace(/_/g, " ")}
+                                                                            </Typography>
+
+                                                                            {type === "boolean" ? (
+                                                                                <Checkbox 
+                                                                                    onChange={(e) => handleChange(proc.uuid, key, e.target.checked)}
+                                                                                    checked={value}
+                                                                                >
+                                                                                    {key.replace(/_/g, " ")}
+                                                                                </Checkbox>
+                                                                            ) : type === "textarea" ? (
+                                                                                <Textarea 
+                                                                                    style={{ width: "100%" }} 
+                                                                                    value={value} 
+                                                                                    onChange={(e) => handleChange(proc.uuid, key, e.target.value)} 
+                                                                                />
+                                                                            ) : (
+                                                                                <TextInput 
+                                                                                    type={type} 
+                                                                                    style={{ width: "100%" }} 
+                                                                                    value={value} 
+                                                                                    onChange={(e) => handleChange(proc.uuid, key, e.target.value)} 
+                                                                                />
+                                                                            )}
+                                                                        </Box>
+                                                                    );
+                                                                })}
+                                                            </Flex>
+
+                                                            {/* Блок шагов процесса */}
                                                             <Typography variant="sigma" style={{ marginTop: "20px" }}>Steps:</Typography>
                                                             {processDetails.steps && processDetails.steps.length > 0 ? (
                                                                 <Table colCount={1} rowCount={processDetails.steps.length}>
                                                                     <Tbody>
                                                                         {processDetails.steps.map((step, index) => (
                                                                             <Tr key={index}>
-                                                                                <Td style={{padding:"10px"}}>
-                                                                                    <Typography textColor="neutral800" >{`#${index + 1} ${step.name}`}</Typography>
+                                                                                <Td style={{ padding: "10px" }}>
+                                                                                    <Typography textColor="neutral800">{`#${index + 1} ${step.name}`}</Typography>
                                                                                 </Td>
                                                                             </Tr>
                                                                         ))}
@@ -107,13 +148,22 @@ const Process = () => {
                                                             ) : (
                                                                 <Typography>Нет шагов в этом процессе.</Typography>
                                                             )}
-                                                            <Button style={{ marginTop: "20px" }} onClick={handleSaveAll}>Сохранить изменения</Button>
+
+                                                            {/* Кнопка сохранения */}
+                                                            <Button 
+                                                                style={{ marginTop: "20px" }} 
+                                                                onClick={handleSaveAll}
+                                                                disabled={!editedProcess[proc.uuid]}
+                                                            >
+                                                                Сохранить изменения
+                                                            </Button>
                                                         </Box>
                                                     )}
                                                 </Modal.Body>
                                             </Modal.Content>
                                         </Modal.Root>
                                     </Td>
+
                                 </Tr>
                             ))
                         ) : (

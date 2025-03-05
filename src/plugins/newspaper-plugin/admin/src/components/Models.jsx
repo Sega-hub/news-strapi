@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea } from '@strapi/design-system';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea, TextInput, Checkbox  } from '@strapi/design-system';
 import { FileError } from '@strapi/icons';
 
 
@@ -68,19 +68,51 @@ const Models = () => {
                                                     <Modal.Title>All models info</Modal.Title>
                                                 </Modal.Header>
                                                 <Modal.Body>
-                                                    <Flex>
-                                                        <Box gap={4} style={{ marginTop: "20px", display: "flex", flexDirection: "column" }}>
-                                                            {Object.keys(model).map((key) => (
-                                                                <Box key={key} style={{ padding: "4px", width: "100%" }}>
-                                                                    <Typography variant="pi" fontWeight="bold" style={{ backgroundColor: "rgb(246, 246, 249)", padding: "4px" }}>{key.replace(/_/g, " ")}</Typography>
-                                                                    <Textarea
-                                                                        style={{ width: "500px" }}
-                                                                        value={editedModels[model.uuid]?.[key] ?? model[key] ?? ""}
-                                                                        onChange={(e) => handleChange(model.uuid, key, e.target.value)}
-                                                                    />
+                                                    <Flex wrap="wrap" gap={4} style={{ marginTop: "20px", display: "flex" }}>
+                                                        {Object.keys(model).map((key) => {
+                                                            const value = editedModels[model.uuid]?.[key] ?? model[key] ?? "";
+                                                            const type = typeof value === "boolean" 
+                                                                ? "boolean" 
+                                                                : typeof value === "number" 
+                                                                ? "number" 
+                                                                : value.length > 50 
+                                                                ? "textarea" 
+                                                                : "text";
+
+                                                            return (
+                                                                <Box key={key} style={{ width: "45%", padding: "8px" }}>
+                                                                    <Typography 
+                                                                        variant="pi" 
+                                                                        fontWeight="bold" 
+                                                                        style={{ backgroundColor: "#f6f6f9", padding: "4px", display: "block" }}
+                                                                    >
+                                                                        {key.replace(/_/g, " ")}
+                                                                    </Typography>
+
+                                                                    {type === "boolean" ? (
+                                                                        <Checkbox 
+                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.checked)}
+                                                                            checked={value}
+                                                                        >
+                                                                            {key.replace(/_/g, " ")}
+                                                                        </Checkbox>
+                                                                    ) : type === "textarea" ? (
+                                                                        <Textarea 
+                                                                            style={{ width: "100%" }} 
+                                                                            value={value} 
+                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.value)} 
+                                                                        />
+                                                                    ) : (
+                                                                        <TextInput 
+                                                                            type={type} 
+                                                                            style={{ width: "100%" }} 
+                                                                            value={value} 
+                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.value)} 
+                                                                        />
+                                                                    )}
                                                                 </Box>
-                                                            ))}
-                                                        </Box>
+                                                            );
+                                                        })}
                                                     </Flex>
                                                 </Modal.Body>
                                                 <Modal.Footer>
@@ -95,6 +127,7 @@ const Models = () => {
                                             </Modal.Content>
                                         </Modal.Root>
                                     </Td>
+
                                 </Tr>
                             ))
                         ) : (

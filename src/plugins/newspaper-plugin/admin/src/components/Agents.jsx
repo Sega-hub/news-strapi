@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea } from '@strapi/design-system';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea, TextInput, Checkbox } from '@strapi/design-system';
 import { FileError } from '@strapi/icons';
 
 const Agents = () => {
@@ -64,22 +64,58 @@ const Agents = () => {
                                                     <Modal.Title>All agent info</Modal.Title>
                                                 </Modal.Header>
                                                 <Modal.Body>
-                                                    <Flex style={{ padding: "20px", display: "flex", flexWrap: "wrap" }}>
-                                                        {Object.keys(agent).map((key) => (
-                                                            <Box key={key} style={{ padding: "4px", width: "100%" }}>
-                                                                <Typography variant="pi" fontWeight="bold">{key.replace(/_/g, " ")}</Typography>
-                                                                <Textarea
-                                                                    value={editedAgents[agent.uuid]?.[key] ?? agent[key] ?? ""}
-                                                                    onChange={(e) => handleChange(agent.uuid, key, e.target.value)}
-                                                                />
-                                                            </Box>
-                                                        ))}
+                                                    <Flex wrap="wrap" gap={4} style={{ padding: "20px", display: "flex" }}>
+                                                        {Object.keys(agent).map((key) => {
+                                                            const value = editedAgents[agent.uuid]?.[key] ?? agent[key] ?? "";
+                                                            const type = typeof value === "boolean" 
+                                                                ? "boolean" 
+                                                                : typeof value === "number" 
+                                                                ? "number" 
+                                                                : value.length > 50 
+                                                                ? "textarea" 
+                                                                : "text";
+
+                                                            return (
+                                                                <Box key={key} style={{ width: "45%", padding: "8px" }}>
+                                                                    <Typography 
+                                                                        variant="pi" 
+                                                                        fontWeight="bold" 
+                                                                        style={{ backgroundColor: "#f6f6f9", padding: "4px", display: "block" }}
+                                                                    >
+                                                                        {key.replace(/_/g, " ")}
+                                                                    </Typography>
+
+                                                                    {type === "boolean" ? (
+                                                                        <Checkbox 
+                                                                            onChange={(e) => handleChange(agent.uuid, key, e.target.checked)}
+                                                                            checked={value}
+                                                                        >
+                                                                            {key.replace(/_/g, " ")}
+                                                                        </Checkbox>
+                                                                    ) : type === "textarea" ? (
+                                                                        <Textarea 
+                                                                            style={{ width: "100%" }} 
+                                                                            value={value} 
+                                                                            onChange={(e) => handleChange(agent.uuid, key, e.target.value)} 
+                                                                        />
+                                                                    ) : (
+                                                                        <TextInput 
+                                                                            type={type} 
+                                                                            style={{ width: "100%" }} 
+                                                                            value={value} 
+                                                                            onChange={(e) => handleChange(agent.uuid, key, e.target.value)} 
+                                                                        />
+                                                                    )}
+                                                                </Box>
+                                                            );
+                                                        })}
                                                     </Flex>
                                                 </Modal.Body>
                                                 <Modal.Footer>
                                                     <Button
                                                         onClick={() => handleSaveAll(agent.uuid)}
                                                         disabled={!editedAgents[agent.uuid]}
+                                                        style={{ marginTop: "16px" }}
                                                     >
                                                         Сохранить изменения
                                                     </Button>
@@ -87,6 +123,7 @@ const Agents = () => {
                                             </Modal.Content>
                                         </Modal.Root>
                                     </Td>
+
                                 </Tr>
                             ))}
                         </Tbody>

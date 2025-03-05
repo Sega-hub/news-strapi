@@ -2,11 +2,13 @@ import { getTranslation } from './utils/getTranslation';
 import { PLUGIN_ID } from './pluginId';
 import { Initializer } from './components/Initializer';
 import { PluginIcon } from './components/PluginIcon';
+import { useState } from 'react';
+
 
 export default {
   register(app) {
     app.addMenuLink({
-      to: `/plugins/${PLUGIN_ID}`, 
+      to: `/plugins/${PLUGIN_ID}/`, 
       icon: PluginIcon,
       intlLabel: {
         id: `${PLUGIN_ID}.plugin.name`,
