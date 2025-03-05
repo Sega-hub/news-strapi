@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea, TextInput, Checkbox  } from '@strapi/design-system';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea, TextInput, Toggle  } from '@strapi/design-system';
 import { FileError } from '@strapi/icons';
-
 
 const Models = () => {
     const [models, setModels] = useState([]);
@@ -90,24 +89,37 @@ const Models = () => {
                                                                     </Typography>
 
                                                                     {type === "boolean" ? (
-                                                                        <Checkbox 
-                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.checked)}
+                                                                        <Toggle
+                                                                            onLabel="True"
+                                                                            offLabel="False"
                                                                             checked={value}
-                                                                        >
-                                                                            {key.replace(/_/g, " ")}
-                                                                        </Checkbox>
+                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.checked)}
+                                                                        />
+                                                                    ) : type === "number" ? (
+                                                                        <TextInput
+                                                                            type="text"
+                                                                            style={{ width: "100%" }}
+                                                                            value={value}
+                                                                            onChange={(e) => {
+                                                                            // Проверяем, чтобы введенное значение было числом
+                                                                            const newValue = e.target.value;
+                                                                            if (!isNaN(newValue) || newValue === "") { // Разрешаем пустое значение для очистки
+                                                                            handleChange(model.uuid, key, newValue);
+                                                                            }
+                                                                        }}
+                                                                        />
                                                                     ) : type === "textarea" ? (
-                                                                        <Textarea 
-                                                                            style={{ width: "100%" }} 
-                                                                            value={value} 
-                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.value)} 
+                                                                        <Textarea
+                                                                            style={{ width: "100%" }}
+                                                                            value={value}
+                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.value)}
                                                                         />
                                                                     ) : (
-                                                                        <TextInput 
-                                                                            type={type} 
-                                                                            style={{ width: "100%" }} 
-                                                                            value={value} 
-                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.value)} 
+                                                                        <TextInput
+                                                                            type={type}
+                                                                            style={{ width: "100%" }}
+                                                                            value={value}
+                                                                            onChange={(e) => handleChange(model.uuid, key, e.target.value)}
                                                                         />
                                                                     )}
                                                                 </Box>
@@ -127,7 +139,6 @@ const Models = () => {
                                             </Modal.Content>
                                         </Modal.Root>
                                     </Td>
-
                                 </Tr>
                             ))
                         ) : (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea, TextInput, Checkbox } from '@strapi/design-system';
+import { Box, Table, Thead, Tbody, Tr, Th, Td, Typography, Flex, Loader, Modal, Button, Textarea, TextInput, Toggle } from '@strapi/design-system';
 import { FileError } from '@strapi/icons';
 
 const Agents = () => {
@@ -86,12 +86,12 @@ const Agents = () => {
                                                                     </Typography>
 
                                                                     {type === "boolean" ? (
-                                                                        <Checkbox 
-                                                                            onChange={(e) => handleChange(agent.uuid, key, e.target.checked)}
+                                                                        <Toggle
+                                                                            onLabel="True"
+                                                                            offLabel="False"
                                                                             checked={value}
-                                                                        >
-                                                                            {key.replace(/_/g, " ")}
-                                                                        </Checkbox>
+                                                                            onChange={(e) => handleChange(agent.uuid, key, e.target.checked)}
+                                                                        />
                                                                     ) : type === "textarea" ? (
                                                                         <Textarea 
                                                                             style={{ width: "100%" }} 
@@ -123,7 +123,6 @@ const Agents = () => {
                                             </Modal.Content>
                                         </Modal.Root>
                                     </Td>
-
                                 </Tr>
                             ))}
                         </Tbody>
@@ -168,7 +167,6 @@ const Agents = () => {
                             </Td>
                           </Tr>
                         </Tbody>
-            
                       </Table>
                     </Box>
                 )}
